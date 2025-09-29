@@ -1,0 +1,28 @@
+# Web app framework
+streamlit
+
+# PDF processing
+PyMuPDF>=1.23.0
+camelot-py[cv]
+pdfplumber
+pdf2image
+
+# OCR and Google Vision API
+google-cloud-vision
+google-auth
+requests
+python-dotenv
+
+# Image processing
+pillow
+
+# Text utilities
+wordfreq
+
+# Data handling
+pandas
+
+# API framework (for later)
+fastapi
+uvicorn[standard]
+ExtractTable>=2.4.0  # For EXTRACTTABLE.com API

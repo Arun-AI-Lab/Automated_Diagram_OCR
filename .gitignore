@@ -1,0 +1,38 @@
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Temp files and outputs
+tmp/
+tmp/*
+
+# Tests and examples
+app_test.py
+
+# Environment variables (add your API keys to Streamlit secrets instead)
+.env
+
+# Python cache and build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
