@@ -1,16 +1,14 @@
 # Web app framework
-streamlit==1.38.0  # Pin to stable version
+streamlit==1.38.0
 
 # PDF processing
-PyMuPDF==1.24.10  # Matches latest stable with your fitz usage
-pdfplumber==0.11.4
-pdf2image==1.17.0  # Requires poppler-utils (handled by packages.txt)
+PyMuPDF==1.24.10
 
 # OCR and Google Vision API
-google-cloud-vision==3.7.1  # Latest stable; adjust if API key issues
+google-cloud-vision==3.7.1
 google-auth==2.32.0
 requests==2.32.3
-python-dotenv==1.0.1  # Optional for cloud, but keeps local consistency
+python-dotenv==1.0.1
 
 # Image processing
 Pillow==10.4.0
@@ -21,9 +19,5 @@ wordfreq==3.1.1
 # Data handling
 pandas==2.2.2
 
-# API framework (for later)
-fastapi
-uvicorn[standard]
-
-
-ExtractTable>=2.4.0  # For EXTRACTTABLE.com API
+# API framework
+ExtractTable>=2.4.0
