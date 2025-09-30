@@ -2,7 +2,7 @@
 streamlit==1.38.0
 
 # PDF processing
-PyMuPDF==1.24.10
+PyMuPDF==1.23.8
 
 # OCR and Google Vision API
 google-cloud-vision==3.7.1
