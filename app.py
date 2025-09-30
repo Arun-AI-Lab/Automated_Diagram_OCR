@@ -119,7 +119,7 @@ if uploaded_pdf:
             st.subheader("Linked BOM Tables (per diagram page)")
             for page_num in diagram_pages_list:
                 st.markdown(f"**Diagram Page {page_num}**")
-                st.image(annotated_images[page_num], caption=f"Diagram {page_num}", width='stretch')
+                st.image(annotated_images[page_num], caption=f"Diagram {page_num}", use_column_width=True)
                 st.dataframe(linked_tables.get(page_num, pd.DataFrame()))
             st.subheader("Anomalies Table")
             st.dataframe(anomalies_table)
