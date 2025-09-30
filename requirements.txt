@@ -1,28 +1,29 @@
 # Web app framework
-streamlit
+streamlit==1.38.0  # Pin to stable version
 
 # PDF processing
-PyMuPDF>=1.23.0
-camelot-py[cv]
-pdfplumber
-pdf2image
+PyMuPDF==1.24.10  # Matches latest stable with your fitz usage
+pdfplumber==0.11.4
+pdf2image==1.17.0  # Requires poppler-utils (handled by packages.txt)
 
 # OCR and Google Vision API
-google-cloud-vision
-google-auth
-requests
-python-dotenv
+google-cloud-vision==3.7.1  # Latest stable; adjust if API key issues
+google-auth==2.32.0
+requests==2.32.3
+python-dotenv==1.0.1  # Optional for cloud, but keeps local consistency
 
 # Image processing
-pillow
+Pillow==10.4.0
 
 # Text utilities
-wordfreq
+wordfreq==3.1.1
 
 # Data handling
-pandas
+pandas==2.2.2
 
 # API framework (for later)
 fastapi
 uvicorn[standard]
+
+
 ExtractTable>=2.4.0  # For EXTRACTTABLE.com API
