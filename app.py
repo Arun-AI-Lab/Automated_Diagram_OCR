@@ -93,7 +93,7 @@ if uploaded_pdf:
     extracted_bom_df = st.session_state.get("extracted_bom_df", pd.DataFrame())
     if not extracted_bom_df.empty:
         st.success("Extracted BOM from PDF:")
-        st.dataframe(extracted_bom_df, width='stretch')
+        st.dataframe(extracted_bom_df, use_container_width=True)
 
     # ------------------------------
     # Step 4: OCR and Linking
@@ -144,8 +144,8 @@ if uploaded_pdf:
         st.subheader("Linked BOM Tables (per diagram page)")
         for page_num, img_path in data["annotated_images"].items():
             st.markdown(f"**Diagram Page {page_num}**")
-            st.image(img_path, caption=f"Diagram {page_num}", width='stretch')
-            st.dataframe(data["linked_tables"].get(page_num, pd.DataFrame()), width='stretch')
+            st.image(img_path, caption=f"Diagram {page_num}", use_container_width=True)
+            st.dataframe(data["linked_tables"].get(page_num, pd.DataFrame()), use_container_width=True)
 
         st.subheader("Anomalies Table")
-        st.dataframe(data["anomalies_table"], width='stretch')
+        st.dataframe(data["anomalies_table"], use_container_width=True)
