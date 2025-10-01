@@ -13,13 +13,16 @@ from PIL import Image, ImageDraw
 st.set_page_config(page_title="Exploded View OCR", layout="wide")
 st.title("Exploded View OCR")
 
-# Create a temporary directory for uploaded files
 os.makedirs("tmp", exist_ok=True)
 
-# Cached function for BOM extraction
+# Cached function
 @st.cache_data(show_spinner="Extracting BOM from PDF...")
-def extract_bom_cached(pdf_path: str, table_pages: list):
-    return extract_bom_from_pdf(pdf_path, table_pages)
+def extract_bom_cached(pdf_path: str, table_pages: list, manufacturer: str):
+    return extract_bom_from_pdf(pdf_path, table_pages, manufacturer)
+
+# Step 0: Manufacturer selection
+st.subheader("Step 0: Select Manufacturer")
+manufacturer = st.selectbox("Manufacturer", ["Liebherr", "Viking"])
 
 # Step 1: PDF upload
 uploaded_pdf = st.file_uploader("Upload Exploded View PDF", type=["pdf"])
@@ -29,17 +32,17 @@ if uploaded_pdf:
         f.write(uploaded_pdf.getbuffer())
     st.success(f"PDF uploaded: {uploaded_pdf.name}")
 
-    # Extract page count using PyMuPDF
+    # Extract page count
     doc = fitz.open(pdf_path)
     total_pages = len(doc)
     doc.close()
     st.info(f"Total pages in PDF: {total_pages}")
 
-    # Step 2: Manual page selection
+    # Step 2: Page selection
+    st.subheader("Step 2: Select Pages")
     diagram_pages = st.text_input("Enter diagram pages (e.g., 1,3,5-7):")
     table_pages = st.text_input("Enter table pages (e.g., 2,4,8):")
 
-    # Parse page ranges
     def parse_page_range(input_str, total_pages):
         pages = set()
         if not input_str:
@@ -63,26 +66,17 @@ if uploaded_pdf:
     diagram_pages_list = parse_page_range(diagram_pages, total_pages)
     table_pages_list = parse_page_range(table_pages, total_pages)
 
-    # Display selected pages
-    if diagram_pages_list:
-        st.success(f"Diagram pages: {diagram_pages_list}")
-    if table_pages_list:
-        st.success(f"Table pages: {table_pages_list}")
-    if not diagram_pages_list and not table_pages_list:
-        st.warning("No pages selected. Please specify diagram and table pages.")
-
-    extracted_bom_df = pd.DataFrame()  # Default empty DF
-
-    # Step 3: BOM extraction and normalization
+    # Step 3: BOM extraction
+    extracted_bom_df = pd.DataFrame()
     if table_pages_list:
         st.subheader("Step 3: Extract BOM from PDF")
-        # Cached function: only runs if pdf_path or table_pages_list changes
-        extracted_bom_df = extract_bom_cached(pdf_path, tuple(table_pages_list))  # Convert to tuple for caching
-        if not extracted_bom_df.empty:
-            st.success("Extracted BOM from PDF:")
-            st.dataframe(extracted_bom_df)
-        else:
-            st.warning("No valid BOM data extracted from the specified pages.")
+        if st.button("Extract BOM Table"):
+            extracted_bom_df = extract_bom_cached(pdf_path, tuple(table_pages_list), manufacturer)
+            if not extracted_bom_df.empty:
+                st.success("Extracted BOM from PDF:")
+                st.dataframe(extracted_bom_df)
+            else:
+                st.warning("No valid BOM data extracted.")
 
     # Step 4: OCR and Linking
     if diagram_pages_list and not extracted_bom_df.empty:
@@ -119,7 +113,7 @@ if uploaded_pdf:
             st.subheader("Linked BOM Tables (per diagram page)")
             for page_num in diagram_pages_list:
                 st.markdown(f"**Diagram Page {page_num}**")
-                st.image(annotated_images[page_num], caption=f"Diagram {page_num}", use_column_width=True)
+                st.image(annotated_images[page_num], caption=f"Diagram {page_num}", use_container_width=True)
                 st.dataframe(linked_tables.get(page_num, pd.DataFrame()))
             st.subheader("Anomalies Table")
             st.dataframe(anomalies_table)
