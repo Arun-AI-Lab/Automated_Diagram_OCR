@@ -12,7 +12,7 @@ load_dotenv()
 
 # Header ignore words per manufacturer
 HEADER_IGNORE = {
-    "liebherr": {"remark", "item", "part no.", "quantity", "description", "price"},
+    "liebherr": {"remark", "item", "part no.", "quantity", "description", "price", "part"},
     "viking": {"item", "part no.", "name", "qty", "uom", "note"},
 }
 
